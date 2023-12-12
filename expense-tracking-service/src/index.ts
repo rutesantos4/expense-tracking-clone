@@ -2,9 +2,14 @@ import 'dotenv/config';
 import { insert } from './google-sheets';
 import { auth, sheets } from '@googleapis/sheets';
 import express, { Request, Response } from 'express';
+import cors from 'cors';
 
+const corsOptions = {
+    credentials: true
+};
 const app = express();
 app.use(express.json())
+app.use(cors(corsOptions))
 app.put('/expenses', addExpense);
 
 const port = process.env.PORT;
