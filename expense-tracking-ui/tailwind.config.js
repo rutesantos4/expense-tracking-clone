@@ -16,9 +16,7 @@ module.exports = {
         modifySelectors(
           ({ className }) => {
             const eClassName = e(`label-checked${separator}${className}`);
-            console.log(eClassName)
             const yourSelector = 'input[type="radio"]';
-            console.log(yourSelector)
             return `${yourSelector}:checked ~ .${eClassName}`;
           }
         )
