@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { insert } from './google-sheets';
 import { auth, sheets } from '@googleapis/sheets';
+import { storeSubscription } from './subscription-repository';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json())
 app.use(cors(corsOptions))
 app.put('/expenses', addExpense);
+app.post('/subscriptions', addSubscription);
 
 const port = process.env.PORT;
 app.listen(port !== undefined ? port : 8080);
@@ -42,4 +44,19 @@ async function addExpense(req: Request, res: Response) {
 
         return res.status(999).send('Unknown error');
     }
+}
+
+async function addSubscription(req: Request, res: Response) {
+	try {
+		console.log('addSubscription');
+		const body = req.body;
+
+		const response = await storeSubscription(body);
+
+		return res.status(200).send(response);
+	} catch (error) {
+		console.error(error);
+
+		return res.status(999).send('Unknown error');
+	}
 }
