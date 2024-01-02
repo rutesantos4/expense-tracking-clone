@@ -20,8 +20,15 @@ export async function storeSubscription(subscription: PushSubscription) {
 }
 
 export function getAllSubscriptions(): Array<PushSubscription> {
-	const data: string = readFileSync(filePath, 'utf8');
 	let allSubscriptions: PushSubscription[] = [];
+
+	if (!existsSync(filePath)) {
+		console.log('create file');
+		writeFileSync(filePath, JSON.stringify([]));
+		return allSubscriptions;
+	}
+
+	const data: string = readFileSync(filePath, 'utf8');
 
 	if (data) {
 		allSubscriptions = JSON.parse(data ?? '') || [];
