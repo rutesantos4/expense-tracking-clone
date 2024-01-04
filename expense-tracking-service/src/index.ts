@@ -45,7 +45,10 @@ async function addExpense(req: Request, res: Response) {
 			body.description
 		);
 
-		await notify(getAllSubscriptions(), `${body.cost} for ${body.category} (${body.description})`);
+		await notify(
+			getAllSubscriptions(),
+			`${body.cost} for ${body.category} (${body.description})`
+		);
 
 		return res.status(200).send(response);
 	} catch (error) {
