@@ -12,12 +12,24 @@ Afterwards, install the client-side Git hooks to automatically format and lint t
 ./hooks/INSTALL
 ```
 
-To finish, install all the dependencies the project requires to be built.
+Then, install all the dependencies the project requires to be built.
 
 ```bash
 npm i
 
 ```
+
+To properly run this service, you will need to a setup a `.env` file. Start by creating a copy of the `.env.tpl` file and fill the variables with values appropriate for the execution context.
+
+|    Variable Name    | Variable Description                                      |
+| :-----------------: | :-------------------------------------------------------- |
+|   `spreadsheetId`   | Id of Google spreadsheet.                                 |
+|  `credentialsFile`  | Path to the file that contains the Google API credentials |
+|   `vapidSubject`    | VAPID subject.                                            |
+|  `vapidPublicKey`   | VAPID public key.                                         |
+|  `vapidPrivateKey`  | VAPID private key.                                        |
+| `subscriptionsFile` | Path to the Subscriptions file.                           |
+
 
 If everything finished successfully, you're ready to start hacking around! The table below will onboard you on the available commands to use.
 
