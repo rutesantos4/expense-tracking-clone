@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>Expense Tracking</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="dist/output.css">
     <link rel="icon" href="static/pig-favicon.ico" />
     <link rel="apple-touch-icon" href="static/pig-apple-touch-icon.png" />
-    <title>Expense Tracking</title>
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap" rel="stylesheet">
 
     <script>
         function submitForm() {
@@ -103,80 +103,84 @@
 
 
 
-<body class="min-h-screen bg-gray-200 py-4">
-    <div class="max-w-sm mx-auto">
-        <h1 class="font-semibold tracking-wide">Expense Tracker</h1>
-        <a id="promptLink" onclick="onPromptClick()">Enable notifications</a>
+<body class="min-h-screen py-4 bg-texture">
+    <div class="max-w-sm mx-auto bg-white p-2 font-montserrat">
+        
+        <div class="flex justify-center items-center"> 
+            <img src="./static/icon-512-maskable.png">
+        </div>
+
+        <a class="font-bold text-green font-montserrat" id="promptLink" onclick="onPromptClick()">Enable notifications</a>
 
         <form id="expenseForm">
             <div class="my-4">
-                <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                <label for="date" class="block text-sm font-medium text-pink">Date</label>
                 <input type="date" id="date" name="date"
-                    class="block mt-1 w-full rounded-md border border-gray-300 py-2 px-3">
+                    class="form-input-element">
             </div>
 
             <div class="my-4">
-                <label for="cost" class="block text-sm font-medium text-gray-700">Cost</label>
+                <label for="cost" class="block text-sm font-medium text-pink">Cost</label>
                 <input type="number" id="cost" name="cost"
-                    class="block mt-1 w-full rounded-md border border-gray-300 py-2 px-3">
+                    class="form-input-element">
             </div>
 
             <div class="my-4">
-                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                <label for="category" class="block text-sm font-medium text-pink">Category</label>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="cafe" name="category" value="Cafe" class="hidden">
-                        <div for="cafe" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">☕️ Cafe</div>
+                        <div for="cafe" class="form-radio-option">☕️ Cafe</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="lunch" name="category" value="Lunch" class="hidden">
-                        <div for="lunch" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">🥪 Lunch</div>
+                        <div for="lunch" class="form-radio-option">🥪 Lunch</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="dinner" name="category" value="Dinner" class="hidden">
-                        <div for="dinner" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">🍽 Dinner</div>
+                        <div for="dinner" class="form-radio-option">🍽 Dinner</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="travel" name="category" value="Travel" class="hidden">
-                        <div for="travel" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">✈️ Travel</div>
+                        <div for="travel" class="form-radio-option">✈️ Travel</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="shopping" name="category" value="Shop" class="hidden">
-                        <div for="shopping" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">🛍️ Shopping</div>
+                        <div for="shopping" class="form-radio-option">🛍️ Shopping</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="food" name="category" value="Food" class="hidden">
-                        <div for="food" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">🥕 Food</div>
+                        <div for="food" class="form-radio-option">🥕 Food</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="laundry" name="category" value="Laundry" class="hidden">
-                        <div for="laundry" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">🧼 Laundry</div>
+                        <div for="laundry" class="form-radio-option">🧼 Laundry</div>
                     </label>
                 </div>
 
                 <div class="pb-1">
                     <label class="">
                         <input checked type="radio" id="other" name="category" value="Other" class="hidden">
-                        <div for="other" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-400 border border-gray-300 label-checked:bg-gray-300">💬 Other</div>
+                        <div for="other" class="form-radio-option">💬 Other</div>
                     </label>
                 </div>
                 
@@ -184,14 +188,16 @@
 
 
             <div class="my-4">
-                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <label for="description" class="block text-sm font-medium text-pink">Description</label>
                 <input type="text" id="description" name="description"
-                    class="block mt-1 w-full rounded-md border border-gray-300 py-2 px-3">
+                    class="form-input-element">
             </div>
 
+            <div class="flex flex-col items-center">
             <button type="button" onclick="submitForm()"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
+                class="bg-yellow hover:bg-pink-light text-white font-bold py-2 px-4 rounded">Add
                 Expense</button>
+            </div>
         </form>
     </div>
 
