@@ -8,6 +8,30 @@ module.exports = {
       extend: {
         backgroundColor: ['label-checked'],
       },
+      backgroundImage: {
+        'texture': "url(/static/background.svg)"
+      },
+      colors: {
+        transparent: 'transparent',
+        current: 'currentColor',
+        'green': '#AECB41',
+        'deep-blue': {
+          DEFAULT: '#023559',
+          '100': '#1b4969'
+        },
+        'black': '#281E2D',
+        'pink': {
+          DEFAULT: '#E74379',
+          'light': '#F4807D'
+        },
+        'yellow': {
+          DEFAULT: '#FFD03B',
+          'dark': '#FAAC18'
+        }
+      },
+      fontFamily: {
+          'montserrat': ['Montserrat'],
+      }
     },
   },
   plugins: [
