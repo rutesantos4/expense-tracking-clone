@@ -128,61 +128,15 @@
             <div class="my-4">
                 <label for="category" class="block text-sm font-medium text-pink">Category</label>
 
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="cafe" name="category" value="Cafe" class="hidden">
-                        <div for="cafe" class="form-radio-option">☕️ Cafe</div>
-                    </label>
-                </div>
+                <% CATEGORIES.forEach(category => { %> 
+                    <div class="pb-1">
+                        <label class="">
+                            <input checked type="radio" id="<%= category %>" name="category" value="<%= category %>" class="hidden">
+                            <div for="<%= category %>" class="form-radio-option"><%= category %></div>
+                        </label>
+                    </div>
+                 <% }); %>
 
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="lunch" name="category" value="Lunch" class="hidden">
-                        <div for="lunch" class="form-radio-option">🥪 Lunch</div>
-                    </label>
-                </div>
-
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="dinner" name="category" value="Dinner" class="hidden">
-                        <div for="dinner" class="form-radio-option">🍽 Dinner</div>
-                    </label>
-                </div>
-
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="travel" name="category" value="Travel" class="hidden">
-                        <div for="travel" class="form-radio-option">✈️ Travel</div>
-                    </label>
-                </div>
-
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="shopping" name="category" value="Shop" class="hidden">
-                        <div for="shopping" class="form-radio-option">🛍️ Shopping</div>
-                    </label>
-                </div>
-
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="food" name="category" value="Food" class="hidden">
-                        <div for="food" class="form-radio-option">🥕 Food</div>
-                    </label>
-                </div>
-
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="laundry" name="category" value="Laundry" class="hidden">
-                        <div for="laundry" class="form-radio-option">🧼 Laundry</div>
-                    </label>
-                </div>
-
-                <div class="pb-1">
-                    <label class="">
-                        <input checked type="radio" id="other" name="category" value="Other" class="hidden">
-                        <div for="other" class="form-radio-option">💬 Other</div>
-                    </label>
-                </div>
                 
             </div>
 
@@ -195,7 +149,7 @@
 
             <div class="flex flex-col items-center">
             <button type="button" onclick="submitForm()"
-                class="bg-yellow hover:bg-pink-light text-white font-bold py-2 px-4 rounded">Add
+                class="bg-yellow hover:bg-yellow-dark text-white font-bold py-2 px-4 rounded">Add
                 Expense</button>
             </div>
         </form>
