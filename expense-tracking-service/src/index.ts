@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { insert } from './google-sheets';
+import { insert, readCategories } from './google-sheets';
 import { auth, sheets } from '@googleapis/sheets';
 import {
 	storeSubscription,
@@ -16,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
 app.put('/expenses', addExpense);
+app.get('/categories', getCategories);
 app.post('/subscriptions', addSubscription);
 
 const port = process.env.PORT;
@@ -57,6 +58,23 @@ async function addExpense(req: Request, res: Response) {
 		return res.status(999).send('Unknown error');
 	}
 }
+
+async function getCategories(req: Request, res: Response) {
+	try {
+
+		const response = await readCategories(
+			sheets({ version: 'v4', auth: googleAuth }),
+			process.env.spreadsheetId ?? '',
+		);
+
+		return res.status(200).send(response);
+	} catch (error) {
+		console.error(error);
+
+		return res.status(999).send('Unknown error');
+	}
+}
+
 
 async function addSubscription(req: Request, res: Response) {
 	try {

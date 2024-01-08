@@ -1,5 +1,8 @@
 import { sheets_v4 } from '@googleapis/sheets';
 
+const EXPENSES_SHEET_ID = 0;
+const CATEGORIES_SHEET_NAME = "Categories";
+
 export async function insert(
 	googleSheets: sheets_v4.Sheets,
 	spreadsheetId: string,
@@ -19,7 +22,7 @@ export async function insert(
 				{
 					insertDimension: {
 						range: {
-							sheetId: 0, // Assuming the first sheet
+							sheetId: EXPENSES_SHEET_ID,
 							dimension: 'ROWS',
 							startIndex: 1, // Insert at the 2nd position
 							endIndex: 2 // Insert one row
@@ -30,7 +33,7 @@ export async function insert(
 				{
 					pasteData: {
 						coordinate: {
-							sheetId: 0, // Assuming the first sheet
+							sheetId: EXPENSES_SHEET_ID,
 							rowIndex: 1, // The 2nd row
 							columnIndex: 0 // Start from the first column
 						},
@@ -50,5 +53,28 @@ export async function insert(
 		return response;
 	} catch (error) {
 		console.error('Error adding new row:', error);
+	}
+}
+
+export async function readCategories(
+	googleSheets: sheets_v4.Sheets,
+	spreadsheetId: string
+): Promise<string[]> {
+	// Prepare the request to read the first column
+	const request = {
+		spreadsheetId,
+		range: `${CATEGORIES_SHEET_NAME}!A2:A1000`
+	};
+
+	// Execute the get request
+	try {
+		const response = await googleSheets.spreadsheets.values.get(request);
+		const values = response.data.values;
+		var result: string[] = values ? values.flat(Infinity).map(el => String(el)) : []
+		console.log('Categories read successfully.', result);
+		return result;
+	} catch (error) {
+		console.error('Error reading categories:', error);
+		return [];
 	}
 }

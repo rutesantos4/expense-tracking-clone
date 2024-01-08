@@ -7,7 +7,6 @@ const filePath = process.env.subscriptionsFile ?? '';
 export async function storeSubscription(subscription: PushSubscription) {
 	const subscriptions: Array<PushSubscription> = getAllSubscriptions();
 
-	console.log(subscriptionExists(subscription, subscriptions));
 	if (subscriptionExists(subscription, subscriptions)) {
 		console.log('Subscription is already stored');
 		return;
