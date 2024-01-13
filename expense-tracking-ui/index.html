@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="dist/output.css">
     <link rel="icon" href="static/pig-favicon.ico" />
     <link rel="apple-touch-icon" href="static/pig-apple-touch-icon.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Roboto&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <script>
         function submitForm() {
@@ -31,6 +34,7 @@
             })
                 .then(response => response.json())
                 .then(result => {
+                    createBarChart()
                     console.log('Success:', result);
                     // Handle success, e.g., show a success message to the user
                 })
@@ -77,7 +81,7 @@
             if ('serviceWorker' in navigator) {
                 const swRegistration = await navigator.serviceWorker.register('./service-worker.js');
                 const subscription = await swRegistration.pushManager.getSubscription();
-                
+
                 if (subscription) {
                     console.log('User is already subscribed:', subscription);
                     sendSubscriptionToServer(subscription);
@@ -97,6 +101,7 @@
         window.addEventListener('load', () => {
             initServiceWorker();
             updatePrompt();
+            document.getElementById("date").value = new Date().toLocaleDateString('en-CA');
         });
     </script>
 </head>
@@ -104,53 +109,82 @@
 
 
 <body class="min-h-screen py-4 bg-texture">
-    <div class="max-w-sm mx-auto bg-white p-2 font-montserrat">
-        
-        <div class="flex justify-center items-center"> 
+
+    <div class="max-w-lg mx-auto bg-white p-2 font-montserrat">
+
+        <div id="header-image" class="flex justify-center items-center">
             <img src="./static/icon-512-maskable.png">
         </div>
 
-        <a class="font-bold text-green font-montserrat" id="promptLink" onclick="onPromptClick()">Enable notifications</a>
+        <a class="font-bold text-green font-montserrat" id="promptLink" onclick="onPromptClick()">Enable
+            notifications</a>
+
+        <div id="chart" class="relative flex flex-col rounded-xl bg-gray-200 bg-clip-border text-gray-700 shadow-md">
+
+            <div
+                class="relative mx-4 mt-4 flex flex-row overflow-hidden rounded-none bg-transparent bg-clip-border text-gray-700 shadow-none md:items-center">
+
+                <div class="p-2 max-w-sm">
+                    <select class="form-input-element" onchange="changeCostsPer(this.value)">
+                        <option value="month">Month</option>
+                        <option value="category">Category</option>
+                    </select>
+                    <p class="block max-w-sm text-xs font-normal leading-normal text-gray-700 antialiased">
+                        Visualize your expenses by...
+                    </p>
+                </div>
+
+                <div class="p-2 max-w-sm">
+                    <input type="text" id="year" name="date" class="form-input-element"
+                        onchange="changeYear(this.value)">
+                    <p class="block max-w-sm text-xs font-normal leading-normal text-gray-700 antialiased">
+                        Visualize your expenses during the specified year
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-4 px-2 pb-0">
+                <div id="bar-chart"></div>
+            </div>
+        </div>
 
         <form id="expenseForm">
             <div class="my-4">
                 <label for="date" class="block text-sm font-medium text-pink">Date</label>
-                <input type="date" id="date" name="date"
-                    class="form-input-element">
+                <input type="date" id="date" name="date" class="form-input-element">
             </div>
 
             <div class="my-4">
                 <label for="cost" class="block text-sm font-medium text-pink">Cost</label>
-                <input type="number" id="cost" name="cost"
-                    class="form-input-element">
+                <input type="number" id="cost" name="cost" class="form-input-element">
             </div>
 
             <div class="my-4">
                 <label for="category" class="block text-sm font-medium text-pink">Category</label>
 
-                <% CATEGORIES.forEach(category => { %> 
+                <% CATEGORIES.forEach(category=> { %>
                     <div class="pb-1">
                         <label class="">
-                            <input checked type="radio" id="<%= category %>" name="category" value="<%= category %>" class="hidden">
-                            <div for="<%= category %>" class="form-radio-option"><%= category %></div>
+                            <input checked type="radio" id="<%= category %>" name="category" value="<%= category %>"
+                                class="hidden">
+                            <div for="<%= category %>" class="form-radio-option">
+                                <%= category %>
+                            </div>
                         </label>
                     </div>
-                 <% }); %>
+                    <% }); %>
 
-                
             </div>
-
 
             <div class="my-4">
                 <label for="description" class="block text-sm font-medium text-pink">Description</label>
-                <input type="text" id="description" name="description"
-                    class="form-input-element">
+                <input type="text" id="description" name="description" class="form-input-element">
             </div>
 
             <div class="flex flex-col items-center">
-            <button type="button" onclick="submitForm()"
-                class="bg-yellow hover:bg-yellow-dark text-white font-bold py-2 px-4 rounded">Add
-                Expense</button>
+                <button type="button" onclick="submitForm()"
+                    class="!bg-yellow hover:!bg-yellow-dark text-white font-bold py-2 px-4 rounded">Add
+                    Expense</button>
             </div>
         </form>
     </div>
@@ -158,3 +192,180 @@
 </body>
 
 </html>
+
+<script>
+    let currentYearInput;
+    let currentCostsPerInput = 'month';
+    const categories = '<%- CATEGORIES %>'.split(',');
+
+
+    function changeCostsPer(newCostsPer) {
+        currentCostsPerInput = newCostsPer
+        createBarChart()
+    }
+
+    function changeYear(newYear) {
+        currentYearInput = newYear
+        createBarChart()
+    }
+
+    function createBarChart() {
+        if (!currentYearInput) {
+            return;
+        }
+
+        if (currentCostsPerInput == 'month') {
+            renderBarChartMonth(currentYearInput)
+        } else if (currentCostsPerInput == 'category') {
+            renderBarChartCategory(currentYearInput)
+        }
+    }
+
+    async function renderBarChartMonth(year) {
+        const allExpenses = await getExpenses();
+        await renderBarChart(year, getCostsPerMonth(year, allExpenses), [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ])
+    }
+
+    async function renderBarChartCategory(year) {
+        const allExpenses = await getExpenses();
+        await renderBarChart(year, getCostsPerCategory(year, allExpenses), categories);
+    }
+
+    async function renderBarChart(year, costs, byType) {
+        currentYearInput = year
+        const barChartElement = document.querySelector("#bar-chart")
+
+        if (barChartElement.firstChild) {
+            barChartElement.removeChild(barChartElement.firstChild)
+        }
+
+        const chart = new ApexCharts(barChartElement, getChart(year, costs, byType));
+        chart.render();
+    }
+
+    function getChart(year, costs, byType) {
+        return {
+            series: [
+                {
+                    name: "Expenses",
+                    data: costs
+                },
+            ],
+            chart: {
+                type: "bar",
+                height: 240,
+                toolbar: {
+                    show: false,
+                },
+            },
+            title: {
+                show: "",
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            colors: ["#020617"],
+            plotOptions: {
+                bar: {
+                    columnWidth: "40%",
+                    borderRadius: 2,
+                },
+            },
+            xaxis: {
+                axisTicks: {
+                    show: false,
+                },
+                axisBorder: {
+                    show: false,
+                },
+                labels: {
+                    style: {
+                        colors: "#616161",
+                        fontSize: "12px",
+                        fontFamily: "inherit",
+                        fontWeight: 400,
+                    },
+                },
+                categories: byType,
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: "#616161",
+                        fontSize: "12px",
+                        fontFamily: "inherit",
+                        fontWeight: 400,
+                    },
+                },
+            },
+            grid: {
+                show: true,
+                borderColor: "#dddddd",
+                strokeDashArray: 5,
+                xaxis: {
+                    lines: {
+                        show: true,
+                    },
+                },
+                padding: {
+                    top: 5,
+                    right: 20,
+                },
+            },
+            fill: {
+                opacity: 0.8,
+            },
+            tooltip: {
+                theme: "dark",
+            },
+        };
+    }
+
+    function getCostsPerMonth(year, expenses) {
+        const costsByYear = Array.from({ length: 12 }, () => 0);
+
+        expenses
+            .filter(item => new Date(item.date).getFullYear() == year)
+            .forEach(item => {
+                const itemMonth = new Date(item.date).getMonth();
+                costsByYear[itemMonth] += parseFloat(item.cost);
+            });
+
+        return costsByYear;
+    }
+
+    function getCostsPerCategory(year, expenses) {
+
+        const costsByCategory = {};
+
+        expenses
+            .filter(item => new Date(item.date).getFullYear() == year)
+            .forEach(item => {
+                costsByCategory[item.category] = (costsByCategory[item.category] || 0) + parseFloat(item.cost);
+            });
+
+        return categories.map(category => costsByCategory[category] || 0);
+    }
+
+    async function getExpenses() {
+        const response = await fetch('http://127.0.0.1:8080/expenses/', {
+            method: 'get',
+        });
+
+        return await response.json();
+    }
+
+</script>

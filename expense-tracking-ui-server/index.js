@@ -11,7 +11,7 @@ app.get('/', async function (req, res) {
 app.use(express.static('../expense-tracking-ui'));
 app.listen(4000);
 
-        
+
 async function getCategories() {
 	const response = await fetch('http://127.0.0.1:8080/categories/', {
 		method: 'get',
