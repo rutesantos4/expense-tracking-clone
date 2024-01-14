@@ -4,11 +4,12 @@ const https = require("https");
 var http = require('http');
 const fs = require('fs');
 const app = express();
+const backendEndpoint = process.env.BACKEND_ENPOINT
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.get('/', async function (req, res) {
-	res.render('../../expense-tracking-ui', { VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY, CATEGORIES: await getCategories() });
+	res.render('../../expense-tracking-ui', { VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY, BACKEND_ENPOINT: backendEndpoint, CATEGORIES: await getCategories() });
 });
 app.use(express.static('../expense-tracking-ui'));
 
@@ -31,7 +32,7 @@ serverHTTP.listen(httpPort, () => {
 
 
 async function getCategories() {
-	const response = await fetch('http://127.0.0.1:8080/categories/', {
+	const response = await fetch(`${backendEndpoint}/categories/`, {
 		method: 'get',
 	});
 
