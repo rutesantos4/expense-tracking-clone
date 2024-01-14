@@ -16,6 +16,7 @@ To properly run this service, you will need to a setup a `.env` file. Start by c
 |          Variable Name       | Variable Description   |
 | :--------------------------: | :--------------------- |
 |      `VAPID_PUBLIC_KEY`      | VAPID public key.      |
+|      `BACKEND_ENPOINT`       | Backend URL endpoint.      |
 
 Run the local server via `npm run start`
 
