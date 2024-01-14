@@ -13,7 +13,9 @@
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-    <script>
+    <script>  
+        const backendEndpoint = '<%- BACKEND_ENPOINT %>';
+
         function submitForm() {
             const form = document.getElementById('expenseForm');
             const formData = new FormData(form);
@@ -25,7 +27,7 @@
 
             const jsonBody = JSON.stringify(data);
 
-            fetch('http://127.0.0.1:8080/expenses/', {
+            fetch(`${backendEndpoint}/expenses/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,7 +47,7 @@
         }
 
         function sendSubscriptionToServer(subscription) {
-            fetch('http://127.0.0.1:8080/subscriptions/', {
+            fetch(`${backendEndpoint}/subscriptions/`, {
                 method: 'post',
                 body: JSON.stringify(subscription),
                 headers: { 'content-type': 'application/json' }
@@ -196,7 +198,6 @@
 <script>
     let currentYearInput;
     let currentCostsPerInput = 'month';
-    const backendEndpoint = '<%- BACKEND_ENPOINT %>';
     const categories = '<%- CATEGORIES %>'.split(',');
 
 
