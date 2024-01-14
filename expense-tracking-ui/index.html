@@ -196,6 +196,7 @@
 <script>
     let currentYearInput;
     let currentCostsPerInput = 'month';
+    const backendEndpoint = '<%- BACKEND_ENPOINT %>';
     const categories = '<%- CATEGORIES %>'.split(',');
 
 
@@ -361,7 +362,7 @@
     }
 
     async function getExpenses() {
-        const response = await fetch('http://127.0.0.1:8080/expenses/', {
+        const response = await fetch(`${backendEndpoint}/expenses/`, {
             method: 'get',
         });
 
