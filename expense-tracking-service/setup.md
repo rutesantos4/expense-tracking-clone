@@ -30,7 +30,6 @@ To properly run this service, you will need to a setup a `.env` file. Start by c
 |  `vapidPrivateKey`  | VAPID private key.                                        |
 | `subscriptionsFile` | Path to the Subscriptions file.                           |
 
-
 If everything finished successfully, you're ready to start hacking around! The table below will onboard you on the available commands to use.
 
 | Script                 | Description                                                                     |

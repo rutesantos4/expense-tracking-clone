@@ -1,7 +1,8 @@
 import { sheets_v4 } from '@googleapis/sheets';
+import { Expense } from './data/expense';
 
 const EXPENSES_SHEET_ID = 0;
-const CATEGORIES_SHEET_NAME = "Categories";
+const CATEGORIES_SHEET_NAME = 'Categories';
 
 export async function insert(
 	googleSheets: sheets_v4.Sheets,
@@ -70,11 +71,44 @@ export async function readCategories(
 	try {
 		const response = await googleSheets.spreadsheets.values.get(request);
 		const values = response.data.values;
-		var result: string[] = values ? values.flat(Infinity).map(el => String(el)) : []
+		var result: string[] = values
+			? values.flat(Infinity).map((el) => String(el))
+			: [];
 		console.log('Categories read successfully.', result);
 		return result;
 	} catch (error) {
 		console.error('Error reading categories:', error);
+		return [];
+	}
+}
+
+export async function readExpenses(
+	googleSheets: sheets_v4.Sheets,
+	spreadsheetId: string
+): Promise<Expense[]> {
+	// Prepare the request to read the first column
+	const request = {
+		spreadsheetId,
+		range: `A2:D1000`,
+		majorDimension: 'ROWS'
+	};
+
+	// Execute the get request
+	try {
+		const response = await googleSheets.spreadsheets.values.get(request);
+		let values: any[][] = response.data.values ? response.data.values : [];
+
+		if (values.length == 0) {
+			console.log('No Expenses found.');
+			return [];
+		}
+
+		var result: Expense[] = values
+			.filter((element) => Object.keys(element).length !== 0)
+			.map((el) => new Expense(el[0], el[1], el[2], el[3]));
+		return result;
+	} catch (error) {
+		console.error('Error reading expenses:', error);
 		return [];
 	}
 }
