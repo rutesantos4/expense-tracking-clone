@@ -4,12 +4,12 @@ const https = require("https");
 var http = require('http');
 const fs = require('fs');
 const app = express();
-const backendEndpoint = process.env.BACKEND_ENPOINT
+const backendEndpoint = process.env.BACKEND_ENDPOINT
 
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.get('/', async function (req, res) {
-	res.render('../../expense-tracking-ui', { VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY, BACKEND_ENPOINT: backendEndpoint, CATEGORIES: await getCategories() });
+	res.render('../../expense-tracking-ui', { VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY, BACKEND_ENDPOINT: backendEndpoint, CATEGORIES: await getCategories() });
 });
 app.use(express.static('../expense-tracking-ui'));
 
