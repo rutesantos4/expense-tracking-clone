@@ -17,6 +17,10 @@ To properly run this service, you will need to a setup a `.env` file. Start by c
 | :--------------------------: | :--------------------- |
 |      `VAPID_PUBLIC_KEY`      | VAPID public key.      |
 |      `BACKEND_ENPOINT`       | Backend URL endpoint.      |
+|      `KEY_FILE_PATH`         | SSL Key.               |
+|      `CERTIFICATE_FILE_PATH` | SSL Certificate.       |
+|      `HTTP_PORT`             | HTTP Port where application will be running.       |
+|      `HTTPS_PORT`            | HTTPS Port where application will be running.       |
 
 Run the local server via `npm run start`
 
