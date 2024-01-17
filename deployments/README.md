@@ -91,7 +91,7 @@ https://learn.microsoft.com/en-us/azure-stack/user/azure-stack-dev-start-howto-v
     ```
 
 2. Also we need to create the .env files and add the configuration keys.
-Check [expense-tracking-service setup file](./expense-tracking-service/setup.md) and [expense-tracking-ui-server README file](./expense-tracking-ui-server/README.md) to see list of configuration keys for each service.
+Check [expense-tracking-service setup file](../expense-tracking-service/setup.md) and [expense-tracking-ui-server README file](../expense-tracking-ui-server/README.md) to see list of configuration keys for each service.
 
 
 ----
