@@ -16,7 +16,7 @@ To properly run this service, you will need to a setup a `.env` file. Start by c
 |          Variable Name       | Variable Description   |
 | :--------------------------: | :--------------------- |
 |      `VAPID_PUBLIC_KEY`      | VAPID public key.      |
-|      `BACKEND_ENPOINT`       | Backend URL endpoint.      |
+|      `BACKEND_ENDPOINT`       | Backend URL endpoint.      |
 |      `KEY_FILE_PATH`         | SSL Key.               |
 |      `CERTIFICATE_FILE_PATH` | SSL Certificate.       |
 |      `HTTP_PORT`             | HTTP Port where application will be running.       |
