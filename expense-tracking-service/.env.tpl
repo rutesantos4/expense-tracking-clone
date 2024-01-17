@@ -4,3 +4,7 @@ vapidSubject=
 vapidPublicKey=
 vapidPrivateKey=
 subscriptionsFile=
+keyFilePath=
+certificateFilePath=
+httpsPort=
+httpPort=

@@ -8,6 +8,9 @@ import {
 import { setVapid, notify } from './web-notifications';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
 
 const corsOptions = {
 	credentials: true
@@ -20,8 +23,22 @@ app.get('/expenses', getExpenses);
 app.get('/categories', getCategories);
 app.post('/subscriptions', addSubscription);
 
-const port = process.env.PORT;
-app.listen(port !== undefined ? port : 8080);
+// Read SSL certificate and key files
+const sslOptions = {
+	key: fs.readFileSync(process.env.keyFilePath ?? ''),
+	cert: fs.readFileSync(process.env.certificateFilePath ?? '')
+};
+var serverHTTPS = https.createServer(sslOptions, app);
+const httpsPort = process.env.httpsPort || 8080;
+serverHTTPS.listen(httpsPort, () => {
+	console.log(`App listening on https://localhost:${httpsPort}`);
+});
+
+var serverHTTP = http.createServer(app);
+const httpPort = process.env.httpPort || 8081;
+serverHTTP.listen(httpPort, () => {
+	console.log(`App listening on http://localhost:${httpPort}`);
+});
 
 const googleAuth = new auth.GoogleAuth({
 	keyFile: process.env.credentialsFile,
